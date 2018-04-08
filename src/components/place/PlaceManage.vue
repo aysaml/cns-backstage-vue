@@ -1,8 +1,8 @@
 <template>
   <div>
     <h1>地点管理</h1>
-    <el-input placeholder="请输入地点的中文名称" style="width:240px"></el-input>
-    <el-select v-model="value" style="width: 130px" size="mini" placeholder="状态">
+    <el-input placeholder="请输入地点的中文名称" style="width:240px" v-model="searchParam" clearable></el-input>
+    <el-select style="width: 130px" size="mini" placeholder="状态" v-model="state" @change="stateChange" clearable>
         <el-option
           v-for="item in options"
           :key="item.value"
@@ -10,7 +10,7 @@
           :value="item.value">
         </el-option>
     </el-select>
-    <el-button type="primary" @click="">搜索</el-button>
+    <el-button type="primary" icon="el-icon-search" @click="searchFor">搜索</el-button>
       <el-table
         :data="places"
         style="width: 100%"
@@ -108,11 +108,12 @@
               value: '0',
               label: '审核不通过（0）'
             }],
-            value: '',
            multipleSelection: [],
             totals:0,
             pageNum : 1,
-            pageSize : 10
+            pageSize : 10,
+            searchParam : "",
+            state: ""
           }
         },
         mounted: function () {
@@ -153,13 +154,13 @@
           handleSizeChange(val){
             var _this = this;
             _this.pageSize = val;
-            this.getRequest("/place/manage/findPlaceListPage?pageNum=" + _this.pageNum + "&pageSize="+_this.pageSize+"&placeNameCh="+""+"&yn="+ "").then(resp=> {
+            this.getRequest("/place/manage/findPlaceListPage?pageNum=" + _this.pageNum + "&pageSize="+_this.pageSize+"&placeNameCh="+_this.searchParam+"&yn="+ _this.state).then(resp=> {
               if (resp && resp.status == 200) {
                 var data = resp.data;
                 _this.places = data;
               }
             });
-            this.getRequest("/place/manage/findPlaceCount?searchParam=" + "" +"&yn="+ "").then(resp=> {
+            this.getRequest("/place/manage/findPlaceCount?searchParam=" + _this.searchParam +"&yn="+ _this.state).then(resp=> {
               if (resp && resp.status == 200) {
                 var data = resp.data;
                 _this.totals = data;
@@ -169,13 +170,32 @@
           handleCurrentChange(val){
             var _this = this;
             _this.pageNum = val;
-            this.getRequest("/place/manage/findPlaceListPage?pageNum=" + _this.pageNum + "&pageSize="+_this.pageSize+"&placeNameCh="+""+"&yn="+ "").then(resp=> {
+            this.getRequest("/place/manage/findPlaceListPage?pageNum=" + _this.pageNum + "&pageSize="+_this.pageSize+"&placeNameCh="+_this.searchParam+"&yn="+ _this.state).then(resp=> {
               if (resp && resp.status == 200) {
                 var data = resp.data;
                 _this.places = data;
               }
             });
-            this.getRequest("/place/manage/findPlaceCount?searchParam=" + "" +"&yn="+ "").then(resp=> {
+            this.getRequest("/place/manage/findPlaceCount?searchParam=" + _this.searchParam +"&yn="+ _this.state).then(resp=> {
+              if (resp && resp.status == 200) {
+                var data = resp.data;
+                _this.totals = data;
+              }
+            });
+          },
+          stateChange(val){
+            var _this = this;
+            _this.state = val;
+          },
+          searchFor() {
+            var _this = this;
+            this.getRequest("/place/manage/findPlaceListPage?pageNum=" + _this.pageNum + "&pageSize=" + _this.pageSize + "&placeNameCh=" + _this.searchParam + "&yn=" + _this.state).then(resp => {
+              if (resp && resp.status == 200) {
+                var data = resp.data;
+                _this.places = data;
+              }
+            });
+            this.getRequest("/place/manage/findPlaceCount?searchParam=" + _this.searchParam + "&yn=" + _this.state).then(resp => {
               if (resp && resp.status == 200) {
                 var data = resp.data;
                 _this.totals = data;

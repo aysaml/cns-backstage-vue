@@ -61,7 +61,6 @@
 <script>
   export default{
     mounted: function () {
-//      this.devMsg();
       this.loadNF();
     },
     methods: {
@@ -79,8 +78,6 @@
       },
       goChat(){
         this.$router.push({path: '/chat'});
-      },
-      devMsg(){
       },
       handleCommand(cmd){
         var _this = this;

@@ -342,8 +342,8 @@
             _this.form.descr = row.descr;
             _this.form.createTime = row.createTime;
             _this.form.updateTime = row.updateTime;
-            _this.form.operator = "";
-            _this.form.yn = "";
+            _this.form.operator = row.operator;
+            _this.form.yn = row.yn;
           },
           ynChange(val){
             var _this = this;

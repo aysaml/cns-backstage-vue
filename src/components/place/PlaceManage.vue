@@ -364,13 +364,26 @@
             this.getRequest("/place/manage/update?place="+JSON.stringify(place)).then(resp => {
               if (resp && resp.status == 200) {
                  if(resp.data == 0){
-                   _this.centerDialogVisible = true;
+                   _this.success();
                    _this.loadPlaces();
                    _this.loadPlacesCount();
+                 }else {
+                   _this.failed();
                  }
+              }else{
+                _this.failed();
               }
             });
             _this.dialogFormVisible = false;
+          },
+          success(){
+            this.$message({
+              message: "地点审核操作成功！",
+              type: 'success'
+            });
+          },
+          failed(){
+            this.$message.error('操作失败！');
           }
         }
       }

@@ -27,7 +27,7 @@
           <el-card style="width: 350px;margin-bottom: 20px" shadow="hover">
             <el-button type="text"
                        style="color: #f6061b;margin: 0px;float: right; padding: 3px 0;width: 15px;height:15px"
-                       icon="el-icon-delete"></el-button>
+                       icon="el-icon-delete" @click="delPicture(item.id,item.picName)"></el-button>
             <img :src="item.url" class="image"  style="width: 70px;height: 70px;border-radius: 70px">
             <div style="padding: 14px;">
               <span>{{item.picName}}</span><br/>
@@ -50,6 +50,19 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total=totals>
       </el-pagination>
+      <div>
+        <el-dialog
+          title="提示"
+          :visible.sync="centerDialogVisible"
+          width="30%"
+          center>
+          <span>操作成功！</span>
+          <span slot="footer" class="dialog-footer">
+    <el-button @click="centerDialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+  </span>
+        </el-dialog>
+      </div>
     </div>
 </template>
 
@@ -73,7 +86,8 @@
           state: "",
           totals:0,
           pageNum : 1,
-          pageSize : 9
+          pageSize : 9,
+          centerDialogVisible : false
         }
       },
       mounted:function () {
@@ -155,6 +169,26 @@
                   position: 'bottom-right'
                 });
               }
+            }
+          });
+        },
+        delPicture(id,picName){
+          this.$confirm('此操作将永久删除[' + picName + '], 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.doDelete(id);
+          }).catch(() => {
+          });
+        },
+        doDelete(id){
+          var _this = this;
+          this.deleteRequest("/picture/manage/delete?id=" + id).then(resp=> {
+            if (resp.data == 0 && resp.status == 200) {
+              _this.centerDialogVisible = true;
+              _this.loadPictures();
+              _this.loadPictureCount();
             }
           });
         }

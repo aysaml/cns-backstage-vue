@@ -330,7 +330,7 @@
                 _this.loadPlaces();
                 _this.loadPlacesCount();
               }
-            })
+            });
           },
           examine(row){
             var _this = this;

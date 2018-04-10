@@ -2,8 +2,8 @@
 <template>
   <div>
     <h1>地点管理</h1>
-    <el-input placeholder="请输入地点的中文名称" style="width:240px" v-model="searchParam" clearable></el-input>
-    <el-select style="width: 130px" size="mini" placeholder="状态" v-model="state" @change="stateChange" clearable>
+    <el-input placeholder="请输入地点的中文名称" style="width:240px" v-model="searchParam"  size="small" clearable></el-input>
+    <el-select style="width: 130px"  size="small" placeholder="状态" v-model="state" @change="stateChange" clearable>
         <el-option
           v-for="item in options"
           :key="item.value"
@@ -11,7 +11,7 @@
           :value="item.value">
         </el-option>
     </el-select>
-    <el-button type="primary" icon="el-icon-search" @click="searchFor">搜索</el-button>
+    <el-button type="primary" icon="el-icon-search"  size="small" @click="searchFor">搜索</el-button>
       <el-table
         :data="places"
         style="width: 100%"

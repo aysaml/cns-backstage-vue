@@ -153,7 +153,7 @@
               </el-row>
               <el-row>
                 <div>
-                  <el-form-item label="描述：">
+                  <el-form-item label="图片描述：">
                     <textarea v-model="form.remark" style="width: 956px; height: 104px;"></textarea>
                   </el-form-item>
                 </div>

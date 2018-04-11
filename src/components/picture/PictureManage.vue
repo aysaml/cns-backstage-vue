@@ -225,7 +225,7 @@
       methods : {
         loadPictures(){
           var _this = this;
-          this.getRequest("/picture/manage/findPictureListPage?pageNum=" + 1 + "&pageSize=10&picName="+""+"&yn="+ "").then(resp=> {
+          this.getRequest("/picture/manage/findPictureListPage?pageNum=" + 1 + "&pageSize=9&picName="+""+"&yn="+ "").then(resp=> {
             if (resp && resp.status == 200) {
               var data = resp.data;
               _this.pictures = data;

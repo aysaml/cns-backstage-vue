@@ -353,7 +353,7 @@
           operator : _this.form.operator,
           yn : _this.form.yn
           };
-          this.getRequest("/picture/manage/update?picture="+JSON.stringify(picture)).then(resp => {
+          this.postRequest("/picture/manage/update",{"picture":picture}).then(resp => {
             if (resp && resp.status == 200) {
               if(resp.data == 0){
                 _this.success();

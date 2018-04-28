@@ -79,6 +79,9 @@ export const deleteRequest = (url) => {
 export const getRequest = (url) => {
   return axios({
     method: 'get',
-    url: `${base}${url}`
+    url: `${base}${url}`,
+    headers: {
+      'Content-Type': 'application/json'
+    }
   });
 }

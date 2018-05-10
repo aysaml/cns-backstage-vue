@@ -361,7 +361,7 @@
               updateTime : this.form.updateTime,
               operator : this.form.operator,
               yn : this.form.yn};
-            this.postRequest("/place/manage/update",{"place":place}).then(resp => {
+            this.postJson("/place/manage/update", JSON.stringify(place)).then(resp => {
               if (resp && resp.status == 200) {
                  if(resp.data == 0){
                    _this.success();

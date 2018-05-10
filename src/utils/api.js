@@ -85,3 +85,13 @@ export const getRequest = (url) => {
     }
   });
 }
+export const postJson = (url,param) => {
+  return axios({
+    method: 'post',
+    url: `${base}${url}`,
+    data: param,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+}

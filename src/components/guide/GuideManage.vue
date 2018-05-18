@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>
-      图片管理
+      导游管理
     </h1>
     <div>
       <el-input

@@ -172,6 +172,36 @@
             </el-col>
           </el-row>
           <el-row>
+            <el-col :span="6">
+              <div>
+                <el-form-item label="地点分类:" >
+                  <el-select v-model="form.isSchool" style="width: 150px" size="mini" placeholder="地点分类" @change="isSchoolChange" clearable>
+                    <el-option
+                      v-for="item in isSchoolOptions"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div>
+                <el-form-item label="地点类型:" >
+                  <el-select v-model="form.type" style="width: 150px" size="mini" placeholder="地点类型" @change="typeChange" clearable>
+                    <el-option
+                      v-for="item in typeOptions"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </div>
+            </el-col>
+          </el-row>
+          <el-row>
             <div>
               <el-form-item label="地点描述：">
                 <textarea v-model="form.descr" style="width: 956px; height: 104px;"></textarea>
@@ -217,6 +247,30 @@
               value: '0',
               label: '审核不通过（0）'
             }],
+            isSchoolOptions : [{
+              value: '0',
+              label: '校内地点（0）'
+            },
+              {
+                value: '1',
+                label: '校外周边（1）'
+              }],
+            typeOptions : [{
+              value: '1',
+              label: '学习（1）'
+            },
+              {
+                value: '2',
+                label: '美食（2）'
+              },
+              {
+                value: '2',
+                label: '娱乐（2）'
+              },
+              {
+                value: '3',
+                label: '生活（3）'
+              }],
            multipleSelection: [],
             totals:0,
             pageNum : 1,
@@ -234,7 +288,9 @@
               createTime : "",
               updateTime : "",
               operator : "",
-              yn : []
+              yn : [],
+              isSchool : [],
+              type : []
           }
           }
         },
@@ -344,10 +400,20 @@
             _this.form.updateTime = row.updateTime;
             _this.form.operator = row.operator;
             _this.form.yn = row.yn;
+            _this.form.isSchool = row.isSchool;
+            _this.form.type = row.type;
           },
           ynChange(val){
             var _this = this;
             _this.form.yn = val;
+          },
+          isSchoolChange(val){
+            var _this = this;
+            _this.form.isSchool = val;
+          },
+          typeChange(val){
+            var _this = this;
+            _this.form.type = val;
           },
           updatePlace(){
             var _this = this;
@@ -360,7 +426,9 @@
               createTime : this.form.createTime,
               updateTime : this.form.updateTime,
               operator : this.form.operator,
-              yn : this.form.yn};
+              yn : this.form.yn,
+            isSchool:this.form.isSchool,
+            type : this.type};
             this.postJson("/place/manage/update", JSON.stringify(place)).then(resp => {
               if (resp && resp.status == 200) {
                  if(resp.data == 0){

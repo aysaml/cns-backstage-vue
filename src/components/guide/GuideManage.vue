@@ -152,13 +152,11 @@
         }else{
           val = 0;
         }
-        _this.cardLoading.splice(index, 1, true)
         this.putRequest("/guide/manage/updateYn", {
           userId: item.userId,
           placeId: item.placeId,
           yn: val
         }).then(resp=> {
-          _this.cardLoading.splice(index, 1, false)
           if (resp && resp.status == 200) {
             var data = resp.data;
             _this.state = val;

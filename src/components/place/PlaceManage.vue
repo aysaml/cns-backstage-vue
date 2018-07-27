@@ -115,7 +115,13 @@
             <el-col :span="6">
               <div>
                 <el-form-item label="地点别名:">
-                  <el-input prefix-icon="el-icon-edit" v-model="form.alias" size="mini" style="width: 150px"></el-input>
+                  <el-autocomplete
+                    v-model="form.alias"
+                    :fetch-suggestions="querySearchAsync"
+                    @select="handleSelect"
+                    placeholder="请输入内容"
+                  >
+                  </el-autocomplete>
                 </el-form-item>
               </div>
             </el-col>
@@ -452,6 +458,23 @@
           },
           failed(){
             this.$message.error('操作失败！');
+          },
+          querySearchAsync(queryString,callback){
+            if(null == queryString || queryString == "" || queryString.length < 4){
+              return;
+            }
+            var url = "/cns/backstage/baiduMap/getBaiduSpotName?param="+queryString;
+            var list = [];
+            this.getRequest(url).then(resp => {
+              if (resp && resp.status == 200) {
+                var list = resp.data.spots;
+                console.log(list);
+                callback(list);
+              }
+            });
+          },
+          handleSelect(item){
+            this.form.alias = item.value;
           }
         }
       }
